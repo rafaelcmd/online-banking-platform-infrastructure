@@ -30,16 +30,16 @@ $AWS_CLI ssm put-parameter --name "USER_POOL_CLIENT_ID" --value "$USER_POOL_CLIE
 echo "Create the Cognito User Pool completed successfully."
 
 # Create the ECS Fargate stack
-echo "Creating ECR repository and pushing Docker image..."
+echo "Creating or retrieving ECR repository and pushing Docker image..."
 
-# Create ECR repository and capture the URI
-REPO_URI=$($AWS_CLI ecr describe-repositories --repository-names online-bank-auth-service --region us-east-2 --query 'repositories[0].repositoryUri' --output text 2>/dev/null)
+# Check if the ECR repository exists and get the URI
+REPO_URI=$($AWS_CLI ecr describe-repositories --repository-names online-bank-auth-service --region us-east-2 --query 'repositories[0].repositoryUri' --output text 2>/dev/null || true)
 
 if [ -z "$REPO_URI" ]; then
     echo "ECR repository does not exist. Creating repository..."
     REPO_URI=$($AWS_CLI ecr create-repository --repository-name online-bank-auth-service --region us-east-2 --query 'repository.repositoryUri' --output text)
 else
-    echo "ECR repository already exists. Using existing repository URI."
+    echo "ECR repository already exists. Using existing repository URI: $REPO_URI"
 fi
 
 # Tag the Docker image with the repository URI
