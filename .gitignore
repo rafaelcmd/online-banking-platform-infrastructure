@@ -1,0 +1,35 @@
+# Ignore template files that contain sensitive information
+*.template
+
+# Ignore local .env files
+.env
+
+# Ignore any logs generated during script execution
+*.log
+
+# Ignore directories created by AWS CLI for temporary files
+.aws-sam/
+.build/
+
+# Ignore files related to Docker
+docker-compose.yml
+Dockerfile
+
+# Ignore Python virtual environment files (if any)
+venv/
+__pycache__/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore any generated artifacts
+*.zip
+*.tar.gz
+
+# Ignore any potential IDE-specific files
+.vscode/
+.idea/
+
+# Ignore node_modules if using Node.js scripts
+node_modules/
